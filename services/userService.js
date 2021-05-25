@@ -39,3 +39,7 @@ exports.getAllProfiles = async () => {
 exports.editProfile = async (id, userDetails) => {
   await userRepository.updateUser(id, userDetails);
 };
+
+exports.deleteUserById = async (id) => {
+  await userRepository.deleteUser(id);
+};
