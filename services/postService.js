@@ -1,18 +1,21 @@
 const postRepository = require("../repositories/postRepository");
+const HttpError = require("../utils/httpError");
+
+exports.getAllPosts = async () => {
+  const posts = await postRepository.findAllPosts();
+  return posts;
+};
 
 exports.getPost = async (id) => {
   const post = await postRepository.findPostById(id);
   return post.toJSON();
 };
 
-exports.getAllPosts = async () => {
-  return await postRepository.findAllPosts();
-};
-
 exports.createPost = async (post) => {
   if (!post.title || !post.content) {
-    throw new Error(
-      "You must provide title and content in order to create a post"
+    throw new HttpError(
+      400,
+      "You must provide title and content to create post"
     );
   }
   await postRepository.insertPost(post);

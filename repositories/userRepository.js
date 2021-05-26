@@ -20,6 +20,6 @@ exports.updateUser = async (id, userDetails) => {
   return await User.update(userDetails, { where: { id } });
 };
 
-exports.deleteUser = async (id) => {
+exports.deleteUser = async () => {
   return await User.destroy({ where: { id } });
 };

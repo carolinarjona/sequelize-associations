@@ -1,32 +1,33 @@
 const express = require("express");
-const router = express.Router();
+const roleValidation = require("../middleware/roleValidation");
 const postService = require("../services/postService");
+const router = express.Router();
 
-router.get("/all", async (req, res) => {
+router.get("/all", roleValidation("user"), async (req, res, next) => {
   try {
-    const posts = await postService.getAllPosts();
-    res.status(200).json(posts);
+    const post = await postService.getAllPosts();
+    res.status(200).json(post);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    next(error);
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", roleValidation(["user", "mods"]), async (req, res, next) => {
   try {
     const { id } = req.params;
     const post = await postService.getPost(id);
     res.status(200).json(post);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    next(error);
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     await postService.createPost(req.body);
     res.sendStatus(201);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    next(error);
   }
 });
 

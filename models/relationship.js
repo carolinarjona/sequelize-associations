@@ -1,7 +1,7 @@
 const dbConnection = require("../config/db");
-const User = require("./User");
-const Post = require("./Post");
-const Comment = require("./Comment");
+const User = require("../models/User");
+const Post = require("../models/Post");
+const Comment = require("../models/Comment");
 
 const loadModels = () => {
   User.hasMany(Post, {
